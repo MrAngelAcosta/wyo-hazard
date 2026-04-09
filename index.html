@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyo-Hazard | Casper Wyoming FRC Team 1303</title>
+    <!-- Font Awesome for the Hazard Symbols -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Hazard Palette Variables */
+        :root {
+            --hazard-yellow: #ffcc00;   
+            --hazard-black: #1a1a1a;    
+            --hazard-gray: #333333;     
+            --hazard-white: #ffffff;
+            --caution-stripe: repeating-linear-gradient(
+                45deg,
+                #ffcc00,
+                #ffcc00 20px,
+                #1a1a1a 20px,
+                #1a1a1a 40px
+            );
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--hazard-black);
+            background-color: var(--hazard-white);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section { padding: 80px 0; }
+
+        /* Typography */
+        h1, h2, h3 { 
+            text-transform: uppercase; 
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        h2 { 
+            font-size: 2.5rem; 
+            text-align: center; 
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 5px;
+            background: var(--hazard-yellow);
+        }
+
+        /* Navigation */
+        header {
+            background: #000;
+            border-bottom: 4px solid var(--hazard-yellow);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--hazard-yellow);
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        .logo i { margin-right: 10px; font-size: 1.8rem; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover { color: var(--hazard-yellow); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            border-bottom: 10px solid var(--hazard-yellow);
+        }
+
+        .hero h1 { font-size: 5rem; color: var(--hazard-yellow); line-height: 1; }
+        .hero p { font-size: 1.4rem; margin: 20px 0; color: #eee; font-style: italic; }
+
+        .location-tag {
+            display: inline-block;
+            background: var(--hazard-yellow);
+            color: #000;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        /* Stripes Accent */
+        .caution-bar {
+            height: 30px;
+            background: var(--caution-stripe);
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--hazard-yellow);
+            color: var(--hazard-black);
+            padding: 15px 35px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 4px;
+            display: inline-block;
+            transition: 0.3s;
+            border: 2px solid var(--hazard-yellow);
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--hazard-yellow);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-box {
+            background: var(--hazard-black);
+            color: var(--hazard-yellow);
+            padding: 40px;
+            border-radius: 4px;
+            border-left: 10px solid var(--hazard-yellow);
+        }
+
+        /* Robot Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 8px solid var(--hazard-black);
+            transition: 0.3s;
+        }
+
+        .card:hover { 
+            border-bottom-color: var(--hazard-yellow); 
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card i { font-size: 3.5rem; color: var(--hazard-black); margin-bottom: 20px; }
+
+        /* Sponsors */
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .sponsor-box {
+            background: #000;
+            color: var(--hazard-yellow);
+            padding: 30px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid var(--hazard-gray);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: var(--hazard-black);
+            color: white;
+        }
+
+        .contact-flex {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .info-link {
+            color: var(--hazard-yellow);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: #000;
+            color: #666;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #222;
+        }
+
+        .menu-btn { display: none; color: var(--hazard-yellow); font-size: 1.5rem; cursor: pointer; }
+
+        @media (max-width: 850px) {
+            .about-grid, .contact-flex { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3.5rem; }
+            .nav-links { display: none; }
+            .menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-biohazard"></i>
+                    WYO-HAZARD 1303
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#about">The Team</a></li>
+                    <li><a href="#robots">The Bots</a></li>
+                    <li><a href="#sponsors">Partners</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="menu-btn"><i class="fas fa-bars"></i></div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="location-tag">Base Ops: Casper, Wyoming</div>
+            <h1>WYO-HAZARD</h1>
+            <p>FRC Team 1303 | Excellence Under Pressure</p>
+            <a href="#about" class="btn">Access Intelligence</a>
+        </div>
+    </section>
+
+    <div class="caution-bar"></div>
+
+    <section id="about" class="container">
+        <div class="about-grid">
+            <div>
+                <h2>The Command Center</h2>
+                <p><strong>Wyo-Hazard</strong> is the premier FIRST Robotics Competition team representing <strong>Casper, Wyoming</strong>. Since 2004, Team 1303 has been a staple in the Wyoming STEM community, bringing together the brightest young minds to solve complex engineering problems.</p>
+                <p>Our workshop is a hub for mechanical design, electrical integration, and advanced programming. We don't just build robots; we build leaders who are ready to enter the workforce with real-world technical skills.</p>
+                <a href="#contact" class="btn" style="background: var(--hazard-black); color: var(--hazard-yellow); border-color: #000;">Join the Crew</a>
+            </div>
+            <div class="about-box">
+                <h3>Vitals</h3>
+                <p><strong>Unit:</strong> FRC 1303</p>
+                <p><strong>HQ:</strong> Casper, WY</p>
+                <p><strong>Status:</strong> System Active</p>
+                <p><strong>Focus:</strong> Mechanical, Coding, Strategy</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="robots" style="background: #f4f4f4;">
+        <div class="container">
+            <h2>Hangar Inventory</h2>
+            <div class="grid">
+                <div class="card">
+                    <i class="fas fa-radiation"></i>
+                    <h3>Project Fusion</h3>
+                    <p>Industrial-tier cargo manipulator with high-visibility hazard yellow finish. Optimized for high-cycle efficiency.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Project Volt</h3>
+                    <p>Agile swerve-drive unit built for precision movement in Casper's most competitive scrimmages.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Project Alloy</h3>
+                    <p>Heavy-duty defensive chassis designed to withstand high-impact collisions during regional play.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sponsors" class="container">
+        <h2>Strategic Partners</h2>
+        <div class="sponsor-grid">
+            <div class="sponsor-box">LOCAL CASPER INDUSTRY</div>
+            <div class="sponsor-box">WYOMING TECH CORP</div>
+            <div class="sponsor-box">ENERGY SECTOR PARTNER</div>
+            <div class="sponsor-box">STEM FOUNDATION</div>
+        </div>
+    </section>
+
+    <div class="caution-bar"></div>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-flex">
+                <div>
+                    <h2>Signal Transmission</h2>
+                    <p style="margin-bottom: 30px;">Reach out for sponsorship opportunities, team recruitment, or local Casper outreach events.</p>
+                    <div class="info-link"><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Casper, Wyoming, USA</div>
+                    <div class="info-link"><i class="fas fa-envelope" style="margin-right: 10px;"></i> hq@wyohazard1303.org</div>
+                    <div style="margin-top: 40px;">
+                        <i class="fab fa-instagram" style="font-size: 2rem; margin-right: 20px; color: var(--hazard-yellow);"></i>
+                        <i class="fab fa-facebook" style="font-size: 2rem; margin-right: 20px; color: var(--hazard-yellow);"></i>
+                        <i class="fab fa-github" style="font-size: 2rem; color: var(--hazard-yellow);"></i>
+                    </div>
+                </div>
+                <form id="contactForm">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <textarea rows="5" placeholder="Operational message..." required></textarea>
+                    <button type="submit" class="btn">Send Transmission</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p><strong>WYO-HAZARD | TEAM 1303</strong></p>
+            <p>Casper, Wyoming Est. 2004</p>
+            <p style="margin-top: 15px; font-size: 0.8rem;">&copy; 2026 FRC Team 1303. This site is protected by safety protocols.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Contact alert
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Signal Received. Wyo-Hazard command will respond as soon as the robot is charged.");
+            this.reset();
+        });
+
+        // Mobile Menu
+        document.querySelector('.menu-btn').addEventListener('click', function() {
+            const nav = document.querySelector('.nav-links');
+            if (nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '65px';
+                nav.style.left = '0';
+                nav.style.width = '100%';
+                nav.style.background = '#000';
+                nav.style.padding = '20px';
+            }
+        });
+    </script>
+</body>
+</html>
